@@ -1,0 +1,9 @@
+# Keep the build context small and never bake secrets into an image
+.git
+.env
+runs/
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.DS_Store

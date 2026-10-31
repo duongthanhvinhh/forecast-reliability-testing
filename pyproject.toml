@@ -1,0 +1,41 @@
+[project]
+name = "forecast-reliability-testing"
+version = "0.1.0"
+description = "LLM multi-agent testing and reliability evaluation of deep-learning stock forecasts (VN30)"
+authors = [{ name = "Foden Duong" }]
+requires-python = "==3.12.*"
+dependencies = [
+    "fastapi>=0.162.0",
+    "httpx>=0.28.1",
+    "langgraph>=1.2.19",
+    "litellm>=1.106.6",
+    "numpy>=2.5.4",
+    "pandas>=3.1.0",
+    "pyarrow>=26.0.0",
+    "pydantic>=2.14.2",
+    "torch>=2.15.0",
+    "uvicorn>=0.54.0",
+]
+
+[tool.uv]
+# Everything runs in a Linux container (local and CI), so resolve for Linux only.
+environments = ["sys_platform == 'linux'"]
+
+# CPU-only torch: the default PyPI build for Linux bundles multi-GB CUDA libraries.
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu" }]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "hypothesis>=6.170.14",
+    "pytest>=9.2.0",
+    "ruff>=0.17.3",
+]
